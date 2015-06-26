@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'stories',
+    'social_auth'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,11 +53,13 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'raindrop.urls'
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [PROJECT_PATH + '/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,8 +72,38 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'raindrop.wsgi.application'
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.facebook.FacebookBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.load_template_source',
+    'django.template.loaders.app_directories.load_template_source',
+#     'django.template.loaders.eggs.load_template_source',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+    'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
+)
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('facebook')
+SOCIAL_AUTH_DEFAULT_USERNAME = 'Raindroper'
+FACEBOOK_APP_ID = 1597769667159666
+FACEBOOK_API_SECRET = "058d96549fa6a624cc1cd48ff3f0ad25"
+FACEBOOK_EXTENDED_PERMISSIONS = ['email',] 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/home/'
+LOGIN_ERROR_URL = '/login-error/'
+
+WSGI_APPLICATION = 'raindrop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases

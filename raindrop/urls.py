@@ -13,9 +13,14 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
+from django.conf.urls import patterns, include, url
+from django.views.generic import RedirectView
 from django.contrib import admin
 
-urlpatterns = [
+urlpatterns = patterns('',
+	url(r'', include('social_auth.urls')),
+	url(r'^home/$', 'stories.views.home'),
+	url(r'^login/$', RedirectView.as_view(url='/login/facebook')),
+	url(r'^logout/$', RedirectView.as_view(url='/disconnect/facebook')),
     url(r'^admin/', include(admin.site.urls)),
-]
+)
