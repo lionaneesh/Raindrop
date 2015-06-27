@@ -19,6 +19,7 @@ from django.contrib import admin
 
 urlpatterns = patterns('',
 	url(r'', include('social_auth.urls')),
+	url(r'^attachments/', include('attachments.urls')),
 	url(r'^home/$', 'stories.views.home'),
 	url(r'^login/$', RedirectView.as_view(url='/login/facebook')),
 	url(r'^logout/$', RedirectView.as_view(url='/disconnect/facebook')),

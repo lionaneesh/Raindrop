@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Story(models.Model):
-	user = models.ForeignKey(User, editable = False)	
+	user = models.ForeignKey(User, editable = False)
+	time = models.DateTimeField(auto_now_add=True)
 
 class Snippets(models.Model):
 	TYPES = [("Video", "Video"),
